@@ -19,7 +19,9 @@ Input: stormofswords.csv
 
 # Twitter Live feed data
 
-Building networks from mentions in Live Twitter feeds for popular hastags like #GoT or EURO2016.
+## GoT
+
+Building networks from mentions in Live Twitter feeds for popular hastags like #GoT or #EURO2016.
 
 Input: A file with entity names (stormofswords.net) stored as network keys.
 
@@ -32,3 +34,9 @@ Input: A file with entity names (stormofswords.net) stored as network keys.
         $ python twitter_net.py
 
     3. Load into Orange.
+
+
+## EURO 2016
+
+    Get teams data from https://github.com/jokecamp/FootballData
+
