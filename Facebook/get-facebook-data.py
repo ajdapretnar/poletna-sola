@@ -49,13 +49,13 @@ def to_data_table(f):
                 content.append("")
             elif temp_comment[1] is not None:
                 date.append(string_to_datetime(temp_comment[0]))
-                content.append(" ".join(temp_comment[1:]))
+                content.append(" ".join(temp_comment[1:]).replace("\n", " "))
             else:
                 continue
 
     for comm in content:
         if comm:
-            comment = comm.strip("[").strip("]").replace("\\n", " ")
+            comment = comm.strip("[").strip("]")
             for regex, category in rules.items():
                 if re.match(regex, comment):
                     tag, index = category
@@ -71,10 +71,15 @@ def to_data_table(f):
         else:
             tags.append("")
             objects.append("")
+
     var = TimeVariable()
     data_table = Table(domain, list(zip((var.parse(i) for i in date), tags, content, objects)))
     return data_table
 
 data = to_data_table(parsed_html)
+for ins in data:
+    if "2016-04-25 15:04:00" == ins[0]:
+        print("\n" in ins["content"])
+
 Table.save(data, "facebook.tab")
 html.close()
