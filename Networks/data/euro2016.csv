@@ -170,7 +170,6 @@ Shkodran,Mustafi,Defender,German
 Antonio,Rüdiger ,Defender,German
 Joshua,Kimmich,Defender,German
 Benedikt,Höwedes,Defender,German
-Emre,Can ,Midfielder,German
 Bastian,Schweinsteiger,Midfielder,German
 Sami,Khedira,Midfielder,German
 Toni,Kroos,Midfielder,German
@@ -354,7 +353,6 @@ Dragoș,Grigore,Defender,Romania
 Valerică,Găman,Defender,Romania
 Cosmin,Moți,Defender,Romania
 Steliano,Filip,Defender,Romania
-Răzvan,Raț,Defender,Romania
 Mihai,Pintilii,Midfielder,Romania
 Ovidiu,Hoban,Midfielder,Romania
 Adrian,Popa,Midfielder,Romania
@@ -406,7 +404,6 @@ Juraj,Kucka,Midfielder,Slovakia
 Viktor,Pečovský,Midfielder,Slovakia
 Miroslav,Stoch,Midfielder,Slovakia
 Vladimír,Weiss,Midfielder,Slovakia
-Róbert,Mak,Midfielder,Slovakia
 Ondrej,Duda,Midfielder,Slovakia
 Patrik,Hrošovský,Midfielder,Slovakia
 Ján,Greguš,Midfielder,Slovakia
@@ -499,9 +496,7 @@ Oğuzhan,Özyakup,Midfielder,Turkey
 Nuri,Şahin,Midfielder,Turkey
 Hakan,Çalhanoğlu,Midfielder,Turkey
 Arda,Turan,Midfielder,Turkey
-Volkan,Şen,Midfielder,Turkey
 Olcay,Şahan,Midfielder,Turkey
-Emre,Mor,Midfielder,Turkey
 Burak,Yılmaz,Forward,Turkey
 Cenk,Tosun,Forward,Turkey
 Yunus,Mallı,Forward,Turkey
@@ -544,14 +539,13 @@ Joe,Ledley,Midfielder,Wales
 Aaron,Ramsey,Midfielder,Wales
 David,Vaughan,Midfielder,Wales
 Jonathan,Williams,Midfielder,Wales
-Andy,King,Midfielder,Wales
 Hal,Robson-Kanu,Forward,Wales
 David,Cotterill,Forward,Wales
 Simon,Church,Forward,Wales
 Gareth,Bale,Forward,Wales
 George,Williams,Midfielder,Wales
 Sam,Vokes,Forward,Wales
-Gianni,De Biasi ,Coach,Albania
+Gianni,De Biasi,Coach,Albania
 Didier,Deschamps,Coach,France
 Anghel,Iordanescu,Coach,Romania
 Vladimir,Petkovic,Coach,Switzerland
