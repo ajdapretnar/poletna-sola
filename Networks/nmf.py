@@ -22,7 +22,7 @@ class NMF:
     ALG_MU  = "mu"
 
     def __init__(self, rank=10, max_iter=100, eta=0.01, algorithm="gd",
-                 compute_error=True, verbose=True):
+                 compute_error=True, symmetric=False):
         """
         :param rank: Rank of the matrices of the model.
         :param max_iter: Maximum nuber of SGD iterations.
@@ -34,8 +34,9 @@ class NMF:
         self.eta = eta
         self.algorithm = algorithm
         self.compute_error = compute_error
-        self.verbose = verbose
+        self.symmetric= symmetric
         assert self.algorithm in {self.ALG_GD, self.ALG_PGD, self.ALG_MU}
+        np.random.seed(42)
     
     
     def fit(self, X):
@@ -51,6 +52,10 @@ class NMF:
 
         W = np.random.rand(X.shape[0], self.rank)
         H = np.random.rand(X.shape[1], self.rank)
+        if self.symmetric:
+            assert X.shape[1] == X.shape[0]
+            W = H
+            H = W
 
         # Errors
         self.error = np.zeros((self.max_iter,))
@@ -86,11 +91,7 @@ class NMF:
             if self.compute_error:
                 self.error[t] = np.linalg.norm((X-W.dot(H.T))*I, ord="fro")**2
                 num_zeros = sum(W.ravel() == 0) + sum(H.ravel() == 0)
-                print(t, self.error[t], num_zeros)
-
-            if self.verbose:
-                stderr.write("%d/%d\r" % (t, self.max_iter))
-                stderr.flush()
+                print("Iteracija", t, "napaka", self.error[t])
 
         stderr.write("\n")
 
@@ -115,13 +116,14 @@ class NMF:
         return self.W.dot(self.H.T)
 
 
-    def recommend(self, X, i, k=5):
+    def recommend(self, X, i, k=5, min_c=0):
         """
         Recommend items for row i and data X.
+        Exclude zero-only columns
         :param i: Row index.
         :param X: Data matrix.
         :param k: Number of items to recommend.
         """
-        x = self.W[i, :].dot(self.H.T)
-        z = np.nonzero(X[i] == 0)[0]
+        x = self.W[i, :].dot(self.H.T).ravel()
+        z = np.nonzero( (X[i] == 0) *  ((X > 0).sum(axis=0).ravel() > min_c))[0]
         return sorted(z, key=lambda i: x[i], reverse=True)[:k]
