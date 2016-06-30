@@ -4,10 +4,10 @@ import os
 import csv
 
 header = ["name", "surname", "position", "team"]
-writer = csv.DictWriter(open(os.path.join("data", "euro2016.csv"), "w", encoding="utf-8"),
+writer = csv.DictWriter(open(os.path.join("../data", "euro2016.csv.bkp"), "w", encoding="utf-8"),
                         fieldnames=header)
 writer.writeheader()
-for f in glob.glob(os.path.join("data", "euro2016", "players", "*.json")):
+for f in glob.glob(os.path.join("../data", "euro2016", "players", "*.json")):
     team = os.path.basename(f).split("-")[0]
     team = team.capitalize()
     data = json.loads(open(f, encoding="utf-8").read(), encoding="utf-8")
@@ -21,7 +21,7 @@ for f in glob.glob(os.path.join("data", "euro2016", "players", "*.json")):
         wrow = {"name": name, "position": p["position"], "team": team, "surname": surname,}
         writer.writerow(wrow)
 
-f = os.path.join("data", "euro2016", "teams", "teams.json")
+f = os.path.join("../data", "euro2016", "teams", "teams.json")
 data = json.loads(open(f, encoding="utf-8").read(), encoding="utf-8")
 for t in data["sheets"]["Teams"]:
     fullname = t["Coach"]
