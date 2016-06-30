@@ -22,7 +22,7 @@ class NMF:
     ALG_MU  = "mu"
 
     def __init__(self, rank=10, max_iter=100, eta=0.01, algorithm="gd",
-                 compute_error=True, symmetric=False):
+                 compute_error=True, symmetric=False, alpha=0.1):
         """
         :param rank: Rank of the matrices of the model.
         :param max_iter: Maximum nuber of SGD iterations.
@@ -35,6 +35,7 @@ class NMF:
         self.algorithm = algorithm
         self.compute_error = compute_error
         self.symmetric= symmetric
+        self.alpha = alpha
         assert self.algorithm in {self.ALG_GD, self.ALG_PGD, self.ALG_MU}
         np.random.seed(42)
     
@@ -64,12 +65,12 @@ class NMF:
 
             # Gradient-descent based
             if self.algorithm in [self.ALG_GD, self.ALG_PGD]:
-                dW =  ((X - W.dot(H.T)) * I).dot(H)
+                dW =  ((X - W.dot(H.T)) * I).dot(H) + self.alpha * W
                 W  =  W + self.eta * dW
                 if self.algorithm == self.ALG_PGD:
                     W[np.where(W < 0)] = 0
 
-                dH =  ((X - W.dot(H.T)) * I).T.dot(W)
+                dH =  ((X - W.dot(H.T)) * I).T.dot(W) + self.alpha * H
                 H  = H + self.eta * dH
 
                 if self.algorithm == self.ALG_PGD:

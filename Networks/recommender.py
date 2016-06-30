@@ -20,46 +20,49 @@ except:
     print("\t %s vprasalnik.txt " % sys.argv[0])
     quit(1)
 
-
-
+# Nalozi podatke
+X = np.loadtxt(open(datapath, encoding="utf-8"), skiprows=1, delimiter=",")
 
 # Parametri vprasalnik
 if sys.argv[1] == "vprasalnik.txt":
-    k = 5                       # Stevilo priporocil
+    k = 3                       # Stevilo priporocil
     rank = 3                    # Dimenzija modela
     eta = 1e-3                  # Ucni korak
     max_iter = 500              # Stevilo iteracij
     compute_error=True          # Izracun napake
     symmetric=False             # Simetircni podatki: NE
     min_prior_connections = 1   # Minimalni stevilo povezav, da je neko vozlisce priporoceno
+    alpha = 0.001               # Kazen za pretirano prileganje
 elif sys.argv[1] == "euro2016.processed.txt":
     # Parametri Euro
-    k = 10                       # Stevilo priporocil
+    k = 10                      # Stevilo priporocil
     rank = 10                   # Dimenzija modela
-    eta = 1e-2                  # Ucni korak
-    max_iter = 500              # Stevilo iteracij
-    compute_error=True          # Izracun napake
-    symmetric=True              # Simetircni podatki: DA
-    min_prior_connections = 2   # Minimalni stevilo povezav, da je neko vozlisce priporoceno
-else:
-    # Parametri GoT
-    k = 5                       # Stevilo priporocil
-    rank = 5                    # Dimenzija modela
     eta = 1e-3                  # Ucni korak
     max_iter = 500              # Stevilo iteracij
     compute_error=True          # Izracun napake
     symmetric=True              # Simetircni podatki: DA
+    min_prior_connections = 2   # Minimalni stevilo povezav, da je neko vozlisce priporoceno
+    alpha = 0.1                 # Kazen za pretirano prileganje
+    X = (X > 0).astype(int)     # 0-1 povezovanje
+else:
+    # Parametri GoT
+    k = 5                       # Stevilo priporocil
+    rank = 5                    # Dimenzija modela
+    eta = 1e-2                  # Ucni korak
+    max_iter = 500              # Stevilo iteracij
+    compute_error=True          # Izracun napake
+    symmetric=True              # Simetircni podatki: DA
     min_prior_connections = 1   # Minimalni stevilo povezav, da je neko vozlisce priporoceno
+    alpha = 0.01                # Kazen za pretirano prileganje
 
 
 
-X = np.loadtxt(open(datapath, encoding="utf-8"), skiprows=1, delimiter=",")
 naslovi = csv.DictReader(open(datapath, encoding="utf-8"), delimiter=",").fieldnames
 
 
 print("Prilagajanje modela podatkom ...")
 model = NMF(compute_error=compute_error, rank=rank, eta=eta, max_iter=max_iter,
-            symmetric=symmetric)
+            symmetric=symmetric, alpha=alpha)
 model.fit(X)
 Xp = model.predict_all()
 print("Učenje koncano!")

@@ -95,7 +95,7 @@ for (node1, node2), w in edges.items():
     idn1 = names.index(node1)
     idn2 = names.index(node2)
     H.add_edge(idn1, idn2, weight=w)
-    D[idn1, idn2] = D[idn2, idn1] = 1
+    D[idn1, idn2] = D[idn2, idn1] = w
 
 # Write a network file
 # Construct a graph and write a data file

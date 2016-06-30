@@ -46,31 +46,8 @@ http://www.wimbledon.com/en_GB/players/ #Wimbledon2016
 http://www.gpupdate.net/en/f1-line-up/234/2016-formula-1-teams/ #F1
 ...
 
-
-# Examples for GOT
-Vnesi št. ali ime uporabnika/vozlišča (-1 za izhod): Melisandre
-Do 5 najprimernejsih priporocil/povezav:
-	1. Olenna (napovedana ocena: 1.215)
-	2. Nan (napovedana ocena: 1.212)
-	3. Brienne (napovedana ocena: 1.153)
-	4. Aerys (napovedana ocena: 1.142)
-	5. Joffrey (napovedana ocena: 1.112)
-
-Vnesi št. ali ime uporabnika/vozlišča (-1 za izhod): Walder
-Do 5 najprimernejsih priporocil/povezav:
-	1. Olenna (napovedana ocena: 1.294)
-	2. Joffrey (napovedana ocena: 1.235)
-	3. Margaery (napovedana ocena: 1.187)
-	4. Petyr (napovedana ocena: 1.150)
-	5. Aerys (napovedana ocena: 1.137)
-
-Vnesi št. ali ime uporabnika/vozlišča (-1 za izhod): Tommen
-Do 5 najprimernejsih priporocil/povezav:
-	1. Aerys (napovedana ocena: 1.340)
-	2. Joffrey (napovedana ocena: 1.321)
-	3. Olenna (napovedana ocena: 1.309)
-	4. Tommen (napovedana ocena: 1.288)
-	5. Brienne (napovedana ocena: 1.235)
+Jaime-Daenerys
+Walder-Rickon-Kevan
 
 
 # Examples for EURO
@@ -79,4 +56,3 @@ Mangala-Sagna
 Rashford-Sturridge
 Vermaelen-Alderweireld
 Brady-Ward
-Keane-Chester
