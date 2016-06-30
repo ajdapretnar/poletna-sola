@@ -76,8 +76,9 @@ metatable = Orange.data.Table.from_domain(domain=domain)
 print(nodes)
 
 H = nx.Graph()
+print(nodes, name)
 for idn, row in enumerate(meta):
-    name   = row[colname]
+    name   = str(row[colname])
     degree = len([e for e in edges.keys() if name in e])
     popularity = nodes.get(name, 0)
     H.add_node(idn)
