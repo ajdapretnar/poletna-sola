@@ -4,29 +4,50 @@ import networkx as nx
 import os
 import itertools as it
 import csv
+import sys
+import unicodedata
 
-G = nx.read_pajek(os.path.join("data", "stormofswords.net"))
-G_nodes = G.nodes(data=1)
-G_nodes_dict = dict(G_nodes)
+try:
+    datapath = os.path.join("data", sys.argv[1])
+    metapath = os.path.join("data", sys.argv[2])
+    colname  = sys.argv[3]
+    assert os.path.exists(datapath)
+    assert os.path.exists(metapath)
+except:
+    print("Uporaba: ")
+    print("\t %s <Twitter podatki> <Tabela z imeni> <Ime stolpca>" % sys.argv[0])
+    print()
+    print("Primer: ")
+    print("\t %s twitter_got_dump.tab got.csv name" % sys.argv[0])
+    print()
+    quit(1)
 
+normalize = lambda s: unicodedata.normalize('NFKD', s).encode('ascii','ignore').decode("utf-8")
 
-# TODO: include in Orange Python script module.
-meta = Orange.data.Table(os.path.join("data", "stormofswords.data.csv"))
-datapath = os.path.join("data", "twitter_got_2016-06-20_2016-06-27_dump.tab")
-data = Orange.data.Table(datapath)
+# Important! The ordering of nodes in the graph must be the same as in the
+# metafile
+meta        = Orange.data.Table(metapath)
+data        = Orange.data.Table(datapath)
+readerhead  = list(map(str, meta.domain.variables)) + list(map(str, meta.domain.metas))
+names       = [normalize(str(row[colname])) for row in meta]
+print(names)
 
+# Mine tweets for names
+# Data format is retained from the structure stored by the Twitter module
 nodes = dict()
 edges = dict()
-
+print("Processing tweets")
 for row in data:
-    text = str(row["text"])
+    text = normalize(str(row["text"]))
+
+
     mentions = dict()
-    for name in G_nodes_dict:
-        # TODO: respect overlapping names like Jon Snow and the other Jon
+    for name in names:
         if " " in name:
             pat = name.replace(" ", "[ ]+")
         else:
             pat = "%s" % name
+
         m = re.search(pat, text, re.IGNORECASE)
         if m:
             mentions[name] = mentions.get(name, 0) + 1
@@ -36,39 +57,38 @@ for row in data:
         for ky1, ky2 in it.combinations(sorted(mentions.keys()), 2):
             edges[ky1, ky2] = edges.get((ky1, ky2), 0) + 1
 
-# Construct a graph and write a data file
-graphpath = os.path.splitext(datapath)[0] + '.net'
-metapath  = os.path.splitext(datapath)[0] + '.data.csv'
+columns = list(meta.domain.variables) \
+          + [Orange.data.ContinuousVariable("degree"),
+             Orange.data.ContinuousVariable("popularity"),]
+domain    = Orange.data.Domain(columns, metas=meta.domain.metas)
+metatable = Orange.data.Table.from_domain(domain=domain)
 
-header = ["label 0", "degree", "popularity", "id"]
-writer = csv.DictWriter(open(metapath, "w"), fieldnames=header)
-writer.writeheader()
+print("nodes", nodes)
+print("edges", edges)
 
 H = nx.Graph()
-for name in sorted(nodes, key=lambda nm: int(G_nodes_dict[nm]["id"])):
+for idn, row in enumerate(meta):
+    name   = row[colname]
     degree = len([e for e in edges.keys() if name in e])
     popularity = nodes.get(name, 0)
-    idn = int(G_nodes_dict[name]["id"])
     H.add_node(idn)
-    wrow = {
-        "id":         idn,
-        "degree":     degree,
-        "label 0":    name,
-        "popularity": popularity,
-    }
-    writer.writerow(wrow)
+
+    # # Input data is store in order defined be metafile
+    newrow = Orange.data.Instance(domain=domain)
+    for ky in readerhead:
+        newrow[ky] = row[ky]
+    newrow["popularity"] = popularity
+    newrow["degree"] = degree
+    metatable.append(newrow)
 
 for (node1, node2), w in edges.items():
-    idn1 = int(G_nodes_dict[node1]["id"])
-    idn2 = int(G_nodes_dict[node2]["id"])
+    idn1 = names.index(node1)
+    idn2 = names.index(node2)
     H.add_edge(idn1, idn2, weight=w)
 
-
 # Write a network file
+# Construct a graph and write a data file
+graphpath = os.path.splitext(metapath)[0] + '.processed.net'
+metapath  = os.path.splitext(metapath)[0] + '.processed.tab'
 nx.write_pajek(H, graphpath)
-
-
-
-
-
-
+metatable.save(metapath)
