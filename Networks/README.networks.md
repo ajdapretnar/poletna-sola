@@ -40,3 +40,8 @@ Input: A file with entity names (stormofswords.net) stored as network keys.
 
     Get teams data from https://github.com/jokecamp/FootballData
 
+## Ideje za sprotno delo
+https://sl.wikipedia.org/wiki/Seznam_poslancev_7._dr%C5%BEavnega_zbora_Republike_Slovenije #slovenija #politika
+http://www.wimbledon.com/en_GB/players/ #Wimbledon2016
+http://www.gpupdate.net/en/f1-line-up/234/2016-formula-1-teams/ #F1
+...
