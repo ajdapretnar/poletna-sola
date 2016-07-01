@@ -25,13 +25,11 @@ Building networks from mentions in Live Twitter feeds for popular hastags like #
 
 Input: A file with entity names (stormofswords.net) stored as network keys.
 
-    1. Run a Twitter query and store tweets on disk (twitter_got_2016-06-20_2016-06-27_dump.tab)
+    1. Run a Twitter query and store tweets on disk (twitter_got_dump.tab)
 
     2. Generate a live network from tweets.
-        (twitter_got_2016-06-20_2016-06-27_dump.net,
-         twitter_got_2016-06-20_2016-06-27_dump.data.csv)
 
-        $ python twitter_net.py
+        $ python twitter_net.py twitter_got_dump.tab got.csv name
 
     3. Load into Orange.
 
